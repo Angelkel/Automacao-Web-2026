@@ -1,5 +1,3 @@
-
-
 // CADASTRO
 
 function iniciarCadastro(nome, email) {
@@ -40,12 +38,14 @@ function preencherCadastro() {
     cy.get('[data-qa="create-account"]').click()
 }
 
+
 function verificarSeCadastroFoiEfetuadoComSucesso() {
-    cy.get('[data-qa="create-account"]').click()
+    // Verificar se a conta foi criada
     cy.get('[data-qa="account-created"]')
         .should('be.visible')
-        .and('contain', 'Account Created!')
+        .and('contain.text', 'Account Created!')
 }
+
 
 function verificarSeMensagemDeCadastroExistenteFoiExibida() {
     /**
