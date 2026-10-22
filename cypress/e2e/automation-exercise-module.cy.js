@@ -7,24 +7,23 @@ const checkout = require('../modules/checkout/index')
 
 describe('Automation Exercise', () => {
 
-  it
-    ('CT01 - Cadastrar um novo usuário com sucesso', () => {
-      cy.visit('https://www.automationexercise.com/')
-      cy.get('a[href*=login]').click()
+  it('CT01 - Cadastrar um novo usuário com sucesso', () => {
+    cy.visit('https://www.automationexercise.com/')
+    cy.get('a[href*=login]').click()
 
-      /** Iniciar cadastro */
-      cadastro.iniciarCadastro('PGATS Aut', `pgats-aut-test-${Date.now()}@mail.com`)
-      /** Iniciar cadastro */
+    /** Iniciar cadastro */
+    cadastro.iniciarCadastro('PGATS Aut', `pgats-aut-test-${Date.now()}@mail.com`)
+    /** Iniciar cadastro */
 
-      /** Preencher cadastro */
-      cadastro.preencherCadastro()
-      /** Preencher cadastro */
+    /** Preencher cadastro */
+    cadastro.preencherCadastro()
+    /** Preencher cadastro */
 
-      /** Verificar cadastro efetuado */
-      cadastro.verificarSeCadastroFoiEfetuadoComSucesso()
-      /** Verificar cadastro efetuado */
+    /** Verificar cadastro efetuado */
+    cadastro.verificarSeCadastroFoiEfetuadoComSucesso()
+    /** Verificar cadastro efetuado */
 
-    });
+  });
 
   it('CT02 - Efetuar o login de usuário com email e senha corretos', () => {
     // Arrange
@@ -34,7 +33,7 @@ describe('Automation Exercise', () => {
     cy.visit('https://www.automationexercise.com/login')
 
     // Act
-    login.preencherLogin('pgats-aut-test-1791939288941@mail.com', '1234')
+    login.preencherLogin('angelkel@gmail.com', '1234')
 
     // Assertion
     //verificarSeLoginFoiEfetuadoComSucesso   
@@ -56,7 +55,7 @@ describe('Automation Exercise', () => {
     cy.visit('https://www.automationexercise.com/login')
 
     //Act
-    login.preencherLogin('pgats-aut-test-1791939288941@mail.com', '1234')
+    login.preencherLogin('angelkel@gmail.com', '1234')
 
     //efetuarLogout
     login.efetuarLogout()
@@ -69,11 +68,12 @@ describe('Automation Exercise', () => {
     cy.visit('https://www.automationexercise.com/')
     cy.get('a[href*=login]').click()
 
-    cadastro.iniciarCadastro('PGATS Aut', `pgats-aut-test-1791939288941@mail.com`)
+    cadastro.iniciarCadastro('PGATS Aut', `angelkel@gmail.com`)
 
     //verificarSeMensagemDeCadastroExistenteFoiExibida
     cadastro.verificarSeMensagemDeCadastroExistenteFoiExibida()
   });
+
 
   it('CT08: Verificar todos os produtos e a página de detalhes do produto', () => {
     cy.visit('https://www.automationexercise.com')
@@ -84,6 +84,11 @@ describe('Automation Exercise', () => {
 
     // Acessar a lista de produtos
     produtos.acessarProdutos()
+
+    // Verificar se chegou à página de todos os produtos
+    produtos.verificarPaginaProdutos()
+
+    // Verificar se a lista de produtos está visível
     produtos.verificarListaProdutos()
 
     // Abrir os detalhes do primeiro produto
@@ -96,22 +101,7 @@ describe('Automation Exercise', () => {
       .and('contain.text', 'Availability:')
       .and('contain.text', 'Condition:')
       .and('contain.text', 'Brand:')
-    // cy.visit('https://www.automationexercise.com')
-    // cy.contains('Full-Fledged practice website for Automation Engineers').should('be.visible')
-    // cy.get('a[href*="products"]').first().click()
-    // cy.contains('All Products').should('be.visible')
-    // cy.get('.features_items .product-image-wrapper').should('be.visible')
-    // cy.get('.features_items a[href*="/product_details/"]').first().click()
-
-    // cy.url().should('include', '/product_details/')
-    // cy.get('.product-information h2').should('be.visible')
-    // cy.get('.product-information').should('contain.text', 'Category:')
-    //   .and('contain.text', 'Rs.')
-    //   .and('contain.text', 'Availability:')
-    //   .and('contain.text', 'Condition:')
-    //   .and('contain.text', 'Brand:')
   });
-
 
   it('CT09: Pesquisar produtos e validar os resultados', () => {
 
@@ -135,7 +125,6 @@ describe('Automation Exercise', () => {
     // 6. Pesquisar o produto pelo nome e validar os resultados
     produtos.pesquisarProduto('Blue Top')
   });
-
 
   it('CT10: Verificar inscrição na newsletter da página inicial', () => {
 
@@ -166,7 +155,7 @@ describe('Automation Exercise', () => {
 
   });
 
-  it('CT15: Realizar pedido com cadastro antes do checkout', () => {
+  it.only('CT15: Realizar pedido com cadastro antes do checkout', () => {
 
     // 1. Acessar o site e validar a página inicial
     cy.visit('https://www.automationexercise.com/')
@@ -241,30 +230,39 @@ describe('Automation Exercise', () => {
     cy.get('[data-qa="continue-button"]').click()
   });
 
+  it('CT16: Realizar pedido com login antes do checkout', () => {
 
+    // Gerar dados únicos para cada execução
+    const nome = 'PGATS Aut'
+    const email = `pgats-ct16-${Date.now()}@mail.com`
+    const senha = '1234'
 
-  it.only('CT16: Realizar pedido com login antes do checkout', () => {
-
-    // 1. Acessar o site e validar a página inicial
+    // 1. Acessar o site
     cy.visit('https://www.automationexercise.com/')
 
     cy.get('body')
       .should('be.visible')
       .and('contain.text', 'Full-Fledged practice website for Automation Engineers')
 
-    // 2. Acessar a tela de login
+    // 2. Criar uma conta para utilizar no teste
     cy.contains('a', 'Signup / Login').click()
 
-    // 3. Realizar login com uma conta já cadastrada
-    login.preencherLogin(
-      'pgats-aut-test-1791939288941@mail.com',
-      '1234'
-    )
+    cadastro.iniciarCadastro(nome, email)
+    cadastro.preencherCadastro()
+    cadastro.verificarSeCadastroFoiEfetuadoComSucesso()
 
-    // 4. Validar se o login foi realizado
-    login.verificarSeLoginFoiEfetuadoComSucesso()
+    cy.get('[data-qa="continue-button"]').click()
 
-    // 5. Acessar a página de produtos
+    // 3. Fazer logout para testar o login
+    login.efetuarLogout()
+
+    // 4. Entrar novamente com a conta recém-criada
+    cy.contains('a', 'Signup / Login').click()
+
+    login.preencherLogin(email, senha)
+    login.verificarSeLoginFoiEfetuadoComSucesso(nome)
+
+    // 5. Acessar os produtos
     produtos.acessarProdutos()
     produtos.verificarPaginaProdutos()
     produtos.verificarListaProdutos()
@@ -272,41 +270,30 @@ describe('Automation Exercise', () => {
     // 6. Adicionar produto ao carrinho
     checkout.adicionarProdutoAoCarrinho()
 
-    // 7. Acessar o carrinho
+    // 7. Acessar e validar o carrinho
     checkout.acessarCarrinho()
-
-    // 8. Validar se o carrinho está sendo exibido
     checkout.verificarCarrinho()
 
-    // 9. Prosseguir para o checkout
+    // 8. Prosseguir para checkout
     checkout.prosseguirParaCheckout()
-
-    // 10. Validar endereço e resumo do pedido
     checkout.verificarDadosCheckout()
 
-    // 11. Preencher comentário do pedido
+    // 9. Preencher comentário e acessar pagamento
     checkout.preencherComentario()
-
-    // 12. Clicar em Place Order
     checkout.acessarPagamento()
 
-    // 13. Preencher dados e realizar o pagamento
+    // 10. Realizar pagamento
     checkout.realizarPagamento()
-
-    // 14. Validar a confirmação do pedido
     checkout.verificarPedidoRealizado()
 
-    // 15. Excluir a conta utilizada no teste
+    // 11. Excluir a conta criada no teste
     cy.contains('a', 'Delete Account').click()
 
-    // 16. Validar a exclusão da conta
     cy.get('[data-qa="account-deleted"]')
       .should('be.visible')
       .and('contain.text', 'Account Deleted!')
 
-    // 17. Continuar após a exclusão
     cy.get('[data-qa="continue-button"]').click()
-
   });
 
 });

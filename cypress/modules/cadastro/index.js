@@ -1,14 +1,18 @@
 // CADASTRO
 
+
 function iniciarCadastro(nome, email) {
 
-    // cy.get('[data-qa="signup-name"]').type('PGATS Aut')
-    // cy.get('[data-qa="signup-email"]').type(`pgats-aut-test-${Date.now()}@mail.com`)
+    // Preencher o nome
     cy.get('[data-qa="signup-name"]').type(nome)
+
+    // Preencher o e-mail
     cy.get('[data-qa="signup-email"]').type(email)
 
+    // Iniciar o cadastro
     cy.get('[data-qa="signup-button"]').click()
 }
+
 
 function preencherCadastro() {
     cy.get('#id_gender2').check()

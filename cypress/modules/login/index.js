@@ -4,21 +4,30 @@
 function preencherLogin(email, senha) {
 
     // Preencher os campos de login
-    cy.get('[data-qa="login-email"]').type(email)
-    cy.get('[data-qa="login-password"]').type(senha)
+    cy.get('[data-qa="login-email"]')
+        .should('be.visible')
+        .clear()
+        .type(email)
 
-    cy.get('[data-qa="login-button"]').click()
+    cy.get('[data-qa="login-password"]')
+        .should('be.visible')
+        .clear()
+        .type(senha)
+
+    // Clicar no botão de login
+    cy.get('[data-qa="login-button"]')
+        .should('be.visible')
+        .click()
 }
-
 
 function verificarSeLoginFoiEfetuadoComSucesso(nomeUsuario = 'PGATS Aut') {
 
-    // Validar se a mensagem de usuário conectado aparece no menu
-    cy.contains('.navbar-nav a', 'Logged in as')
+    // Validar o nome do usuário conectado
+    cy.get('.navbar-nav', { timeout: 10000 })
         .should('be.visible')
+        .and('contain.text', 'Logged in as')
         .and('contain.text', nomeUsuario)
 }
-
 
 function verificarSeMensagemDeErroFoiExibidaNoLogin() {
 
@@ -32,8 +41,8 @@ function efetuarLogout() {
 
     // Sair da conta
     cy.get('a[href*="logout"]')
-        .should('be.visible')
-        .click()
+        .should('be.visible').click()
+        //.click()
 }
 
 function verificarSeOUsuarioFoiDeslogado() {
