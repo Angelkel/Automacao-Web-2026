@@ -1,9 +1,14 @@
+
 {
   "name": "automacao-web-2026",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run test:report",
+    "cy:run": "cypress run --spec \"cypress/e2e/automation-exercise-module.cy.js\"",
+    "report:merge": "mochawesome-merge cypress/results/*.json -o cypress/results/report.json",
+    "report:html": "marge cypress/results/report.json --reportDir cypress/reports --reportFilename index",
+    "test:report": "npm run cy:run && npm run report:merge && npm run report:html && start cypress/reports/index.html"
   },
   "keywords": [],
   "author": "",
@@ -11,6 +16,9 @@
   "description": "",
   "devDependencies": {
     "cypress": "^13.7.3",
-    "cypress-xpath": "^2.0.1"
+    "cypress-xpath": "^2.0.1",
+    "mochawesome": "^8.1.1",
+    "mochawesome-merge": "^4.4.1",
+    "mochawesome-report-generator": "^6.3.2"
   }
 }

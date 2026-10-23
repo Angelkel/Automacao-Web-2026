@@ -1,16 +1,22 @@
-node_modules
-log
-results
 
-# cypress
-cypress/reports
-cypress/screenshots
+node_modules/
+log/
+results/
 
-# env files
+# Cypress
+cypress/results/
+cypress/reports/
+cypress/screenshots/
+cypress/videos/
 
-.env.production
-.env.test
+# Environment files
+.env
+.env.*
+!.env.example
 
+# npm logs
+npm-debug.log*
 npm_install_debug.log
 
+# OS files
 .DS_Store
