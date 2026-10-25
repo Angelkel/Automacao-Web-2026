@@ -1,0 +1,65 @@
+
+name: Web E2E Tests
+
+on:
+  workflow_dispatch:
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Clone do projeto para a máquina
+      - uses: actions/checkout@v4
+
+      # Configurar Node.js
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      # Conferir a versão instalada
+      - name: Node version
+        run: node --version
+
+      # Instalar dependências
+      - name: Instalando dependências
+        run: npm ci
+
+      # Executar somente os testes da entrega final
+      - name: Executando os testes
+        run: npm run cy:run
+
+      # Consolidar os resultados Mochawesome
+      - name: Consolidar relatório
+        if: always()
+        run: |
+          if compgen -G "cypress/results/*.json" > /dev/null; then
+            npm run report:merge
+          else
+            echo "Nenhum arquivo JSON de resultado encontrado."
+          fi
+
+      # Gerar o relatório HTML
+      - name: Gerar relatório HTML
+        if: always()
+        run: |
+          if [ -f cypress/results/report.json ]; then
+            npm run report:html
+          else
+            echo "Relatório JSON não encontrado."
+          fi
+
+      # Salvar relatórios e evidências
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: relatorios
+          path: |
+            cypress/reports/
+            cypress/results/
+            cypress/screenshots/
+            cypress/videos/
+          if-no-files-found: warn
+          retention-days: 7
