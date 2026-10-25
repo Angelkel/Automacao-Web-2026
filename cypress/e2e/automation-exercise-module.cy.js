@@ -155,7 +155,7 @@ describe('Automation Exercise', () => {
 
   });
 
-  it.only('CT15: Realizar pedido com cadastro antes do checkout', () => {
+  it('CT15: Realizar pedido com cadastro antes do checkout', () => {
 
     // 1. Acessar o site e validar a página inicial
     cy.visit('https://www.automationexercise.com/')
